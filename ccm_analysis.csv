@@ -1,0 +1,12 @@
+Path,File,Function,CCM,Complexity
+c:\Users\dilan\Desktop\Monopoly\Monopoly\src\edu\towson\cis\cosc442\project1\monopoly,PropertyCell.java,getColorGroup,1,Low
+c:\Users\dilan\Desktop\Monopoly\Monopoly\src\edu\towson\cis\cosc442\project1\monopoly,PropertyCell.java,getHousePrice,1,Low
+c:\Users\dilan\Desktop\Monopoly\Monopoly\src\edu\towson\cis\cosc442\project1\monopoly,PropertyCell.java,getNumHouses,1,Low
+c:\Users\dilan\Desktop\Monopoly\Monopoly\src\edu\towson\cis\cosc442\project1\monopoly,PropertyCell.java,getPrice,1,Low
+c:\Users\dilan\Desktop\Monopoly\Monopoly\src\edu\towson\cis\cosc442\project1\monopoly,PropertyCell.java,getRent,4,Low
+c:\Users\dilan\Desktop\Monopoly\Monopoly\src\edu\towson\cis\cosc442\project1\monopoly,PropertyCell.java,playAction,3,Low
+c:\Users\dilan\Desktop\Monopoly\Monopoly\src\edu\towson\cis\cosc442\project1\monopoly,PropertyCell.java,setColorGroup,1,Low
+c:\Users\dilan\Desktop\Monopoly\Monopoly\src\edu\towson\cis\cosc442\project1\monopoly,PropertyCell.java,setHousePrice,1,Low
+c:\Users\dilan\Desktop\Monopoly\Monopoly\src\edu\towson\cis\cosc442\project1\monopoly,PropertyCell.java,setNumHouses,1,Low
+c:\Users\dilan\Desktop\Monopoly\Monopoly\src\edu\towson\cis\cosc442\project1\monopoly,PropertyCell.java,setPrice,1,Low
+c:\Users\dilan\Desktop\Monopoly\Monopoly\src\edu\towson\cis\cosc442\project1\monopoly,PropertyCell.java,setRent,1,Low
