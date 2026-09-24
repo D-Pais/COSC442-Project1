@@ -6,12 +6,18 @@ import junit.framework.TestCase;
 
 public class CellInfoFormatterTest extends TestCase {
     
+    /**
+     * Tests that the InfoFormatter correctly formats the information string for a GoCell.
+     */
     public void testGoCellTest() {
         GoCell cell = new GoCell();
         String goLabel = GoCellInfoFormatter.GO_CELL_LABEL;
         assertEquals(goLabel, InfoFormatter.cellInfo(cell));
     }
     
+    /**
+     * Tests that the InfoFormatter correctly formats the information string for a PropertyCell with its attributes and owner.
+     */
     public void testPropertyCellText() {
         String propertyName = "Blue 1";
         String propertyColor = "blue";

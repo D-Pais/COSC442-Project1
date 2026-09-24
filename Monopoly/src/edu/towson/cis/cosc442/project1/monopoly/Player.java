@@ -17,6 +17,9 @@ public class Player {
 	private ArrayList<Cell> railroads = new ArrayList<Cell>();
 	private ArrayList<Cell> utilities = new ArrayList<Cell>();
 	
+	/**
+	 * Constructs a Player and initializes their position to the 'Go' cell on the game board.
+	 */
 	public Player() {
 		GameBoard gb = GameMaster.instance().getGameBoard();
 		inJail = false;
@@ -25,6 +28,11 @@ public class Player {
 		}
 	}
 
+    /**
+     * Assigns ownership of the given property to this player, updates property collections, and deducts the purchase amount from the player's money.
+     * @param property The cell representing the property to buy.
+     * @param amount The purchase price to deduct from the player.
+     */
     public void buyProperty(Cell property, int amount) {
         property.setTheOwner(this);
         if(property instanceof PropertyCell) {
@@ -49,10 +57,19 @@ public class Player {
         setMoney(getMoney() - amount);
     }
 	
+	/**
+	 * Determines if the player owns any monopolies, allowing them to buy houses.
+	 * @return true if the player can buy a house; false otherwise.
+	 */
 	public boolean canBuyHouse() {
 		return (getMonopolies().length != 0);
 	}
 
+	/**
+	 * Checks if the player owns the property with the specified name.
+	 * @param property The name of the property to check for ownership.
+	 * @return true if the player owns the property; false otherwise.
+	 */
 	public boolean checkProperty(String property) {
 		for(int i=0;i<properties.size();i++) {
 			Cell cell = (Cell)properties.get(i);
@@ -64,6 +81,10 @@ public class Player {
 		
 	}
 	
+	/**
+	 * Transfers all properties owned by this player to the specified player, or resets ownership if null is given.
+	 * @param player The player to receive the properties or null to reset ownership.
+	 */
 	public void exchangeProperty(Player player) {
 		for(int i = 0; i < getPropertyNumber(); i++ ) {
 			PropertyCell cell = getProperty(i);
@@ -82,6 +103,10 @@ public class Player {
 		properties.clear();
 	}
     
+    /**
+     * Returns an array of all properties, including regular properties, railroads, and utilities, owned by the player.
+     * @return An array containing all cells owned by the player.
+     */
     public Cell[] getAllProperties() {
         ArrayList<Cell> list = new ArrayList<Cell>();
         list.addAll(properties);
@@ -90,10 +115,18 @@ public class Player {
         return (Cell[])list.toArray(new Cell[list.size()]);
     }
 
+	/**
+	 * Gets the current amount of money the player has.
+	 * @return The player's amount of money.
+	 */
 	public int getMoney() {
 		return this.money;
 	}
 	
+	/**
+	 * Retrieves the color groups for which the player owns all properties, constituting monopolies.
+	 * @return An array of color group names that the player monopolizes.
+	 */
 	public String[] getMonopolies() {
 		ArrayList<String> monopolies = new ArrayList<String>();
 		Enumeration<String> colors = colorGroups.keys();
@@ -110,10 +143,17 @@ public class Player {
 		return (String[])monopolies.toArray(new String[monopolies.size()]);
 	}
 
+	/**
+	 * Returns the player's name.
+	 * @return The name of the player.
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Pays the jail bail, releases the player from jail, and handles bankruptcy if the player cannot pay.
+	 */
 	public void getOutOfJail() {
 		money -= JailCell.BAIL;
 		if(isBankrupt()) {
@@ -124,18 +164,36 @@ public class Player {
 		GameMaster.instance().updateGUI();
 	}
 
+	/**
+	 * Returns the cell representing the player's current position on the board.
+	 * @return The cell where the player is currently located.
+	 */
 	public Cell getPosition() {
 		return this.position;
 	}
 	
+	/**
+	 * Gets the property owned by the player at the specified index.
+	 * @param index The index of the property to retrieve.
+	 * @return The PropertyCell at the given index.
+	 */
 	public PropertyCell getProperty(int index) {
 		return (PropertyCell)properties.get(index);
 	}
 	
+	/**
+	 * Returns the total number of properties owned by the player.
+	 * @return The count of properties owned by the player.
+	 */
 	public int getPropertyNumber() {
 		return properties.size();
 	}
 
+	/**
+	 * Returns the number of properties the player owns in the specified color group.
+	 * @param name The color group name to query.
+	 * @return The number of properties owned in the color group.
+	 */
 	private int getPropertyNumberForColor(String name) {
 		Integer number = (Integer)colorGroups.get(name);
 		if(number != null) {
@@ -144,22 +202,43 @@ public class Player {
 		return 0;
 	}
 
+	/**
+	 * Checks whether the player is bankrupt, defined as having zero or negative money.
+	 * @return true if the player is bankrupt; false otherwise.
+	 */
 	public boolean isBankrupt() {
 		return money <= 0;
 	}
 
+	/**
+	 * Returns whether the player is currently in jail.
+	 * @return true if the player is in jail; false otherwise.
+	 */
 	public boolean isInJail() {
 		return inJail;
 	}
 
+	/**
+	 * Returns the number of railroad properties owned by the player.
+	 * @return The count of railroad properties owned.
+	 */
 	public int numberOfRR() {
 		return getPropertyNumberForColor(RailRoadCell.COLOR_GROUP);
 	}
 
+	/**
+	 * Returns the number of utility properties owned by the player.
+	 * @return The count of utility properties owned.
+	 */
 	public int numberOfUtil() {
 		return getPropertyNumberForColor(UtilityCell.COLOR_GROUP);
 	}
 	
+	/**
+	 * Pays the specified rent amount to another player, handling partial payments and bankruptcy if necessary.
+	 * @param owner The player who will receive the rent.
+	 * @param rentValue The amount of rent to be paid.
+	 */
 	public void payRentTo(Player owner, int rentValue) {
 		if(money < rentValue) {
 			owner.money += money;
@@ -175,6 +254,9 @@ public class Player {
 		}
 	}
 	
+	/**
+	 * Attempts to purchase the property on the player's current position if it is available.
+	 */
 	public void purchase() {
 		if(getPosition().isAvailable()) {
 			Cell c = getPosition();
@@ -194,6 +276,11 @@ public class Player {
 		}
 	}
 	
+	/**
+	 * Purchases the specified number of houses for all properties in the selected monopoly if the player has sufficient funds.
+	 * @param selectedMonopoly The name of the monopoly color group.
+	 * @param houses The number of houses to purchase per property.
+	 */
 	public void purchaseHouse(String selectedMonopoly, int houses) {
 		GameBoard gb = GameMaster.instance().getGameBoard();
 		PropertyCell[] cells = gb.getPropertiesInMonopoly(selectedMonopoly);
@@ -209,18 +296,35 @@ public class Player {
 		}
 	}
 	
+	/**
+	 * Purchases the specified property cell, assigning ownership and deducting cost.
+	 * @param cell The property cell to purchase.
+	 */
 	private void purchaseProperty(PropertyCell cell) {
         buyProperty(cell, cell.getPrice());
 	}
 
+	/**
+	 * Purchases the specified railroad property cell, assigning ownership and deducting cost.
+	 * @param cell The railroad property cell to purchase.
+	 */
 	private void purchaseRailRoad(RailRoadCell cell) {
 	    buyProperty(cell, cell.getPrice());
 	}
 
+	/**
+	 * Purchases the specified utility property cell, assigning ownership and deducting cost.
+	 * @param cell The utility property cell to purchase.
+	 */
 	private void purchaseUtility(UtilityCell cell) {
 	    buyProperty(cell, cell.getPrice());
 	}
 
+    /**
+     * Sells the given property cell, removing ownership and adding the specified amount to the player's money.
+     * @param property The property cell to sell.
+     * @param amount The amount to credit the player for the sale.
+     */
     public void sellProperty(Cell property, int amount) {
         property.setTheOwner(null);
         if(property instanceof PropertyCell) {
@@ -235,26 +339,49 @@ public class Player {
         setMoney(getMoney() + amount);
     }
 
+	/**
+	 * Sets the player's jail status to the specified value.
+	 * @param inJail true if the player is in jail; false otherwise.
+	 */
 	public void setInJail(boolean inJail) {
 		this.inJail = inJail;
 	}
 
+	/**
+	 * Sets the player's money to the specified amount.
+	 * @param money The new amount of money for the player.
+	 */
 	public void setMoney(int money) {
 		this.money = money;
 	}
 
+	/**
+	 * Sets the player's name to the given value.
+	 * @param name The new name for the player.
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Sets the player's position to the specified cell on the board.
+	 * @param newPosition The cell where the player will be positioned.
+	 */
 	public void setPosition(Cell newPosition) {
 		this.position = newPosition;
 	}
 
+    /**
+     * Returns a string representation of the player, which is their name.
+     * @return The player's name as a string.
+     */
     public String toString() {
         return name;
     }
     
+    /**
+     * Clears all properties, railroads, and utilities owned by the player.
+     */
     public void resetProperty() {
     	properties = new ArrayList<PropertyCell>();
     	railroads = new ArrayList<Cell>();

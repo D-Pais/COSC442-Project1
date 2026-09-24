@@ -37,6 +37,9 @@ public abstract class Cell {
 		return available;
 	}
 	
+	/** 
+	 * @param available
+	 */
 	/**
 	 * Performs the action associated with landing on this cell.
 	 */
